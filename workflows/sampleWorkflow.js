@@ -13,14 +13,14 @@ const runWorkflow = async () => {
     console.log('Telegram response:', tgResponse);
 
     // Gmail Node
-    // const emailResponse = await gmailNode({
-    //   to: 'recipient@example.com',
-    //   subject: 'Test from n8n clone',
-    //   text: 'Hello from Node.js workflow!',
-    //   user: process.env.GMAIL_USER,
-    //   pass: process.env.GMAIL_PASS,
-    // });
-    // console.log('Gmail response:', emailResponse);
+    const emailResponse = await gmailNode({
+      to: 'recipient@example.com',
+      subject: 'Test from n8n clone',
+      text: 'Hello from Node.js workflow!',
+      user: process.env.GMAIL_USER,
+      pass: process.env.GMAIL_PASS,
+    });
+    console.log('Gmail response:', emailResponse);
   } catch (err) {
     console.error(err);
   }
