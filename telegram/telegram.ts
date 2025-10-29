@@ -6,7 +6,7 @@ type TelegramArgs = {
   token: string;
 };
 
-const telegramNode = async ({ message, chatId, token }: TelegramArgs) => {
+export default async function  telegramNode({ message, chatId, token }: TelegramArgs)  {
 
   const url = `https://api.telegram.org/bot${token}/sendMessage`;
 
@@ -25,6 +25,3 @@ const telegramNode = async ({ message, chatId, token }: TelegramArgs) => {
     console.log(e?.response?.data || e?.message || e);
   }
 };
-
-
-export default telegramNode;

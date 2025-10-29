@@ -41,7 +41,7 @@ app.post('/webhook/notify', async (req, res) => {
 
 app.get('/run', async (req, res) => {
   try {
-    const result = await runWorkflow(req, res);
+    const result = await runWorkflow(req);
     return res.status(200).json({ status: 'success', result });
   } catch (err : unknown) {
     if(err instanceof Error)

@@ -18,5 +18,7 @@ bun.lock
 gmail/gmail.js
 telegram/telegram.js
 workflow/sampleWorkflow.js
+global.d.ts
+index.js
 
 
