@@ -1,35 +1,49 @@
-const telegramNode1 = require('../telegram/telegram.ts');
-const gmailNode1 = require('../gmail/gmail.ts');
+import type { Request, Response } from 'express';
+import telegramNode from '../telegram/telegram';
+import gmailNode from '../gmail/gmail';
+
 require('dotenv').config();
 
 const runWorkflow = async (
-  req: import('express').Request,
-  res: import('express').Response
+  req: Request<{}, {}, {}, { msg?: string }>,
+  res: Response
 ) => {
 
   
   try {
+    const message = req.query.msg ?? '';
+    const chatId = process.env.TELEGRAM_CHAT_ID ?? '';
+    const token = process.env.TELEGRAM_BOT_TOKEN ?? '';
+
+    console.log(`Message Received from Request :: ${message}`);
     // Telegram Node
-    const tgResponse = await telegramNode1({
-      message: req.query.msg,
-      chatId: process.env.TELEGRAM_CHAT_ID,
-      token: process.env.TELEGRAM_BOT_TOKEN,
+    const tgResponse = await telegramNode({
+      message,
+      chatId,
+      token,
     });
     console.log('Telegram response:', tgResponse);
 
-    // Gmail Node
-    const emailResponse = await gmailNode1({
+    const user = process.env.GMAIL_USER;
+    const pass = process.env.GMAIL_PASS;
+    if (!user || !pass) {
+      throw new Error('Missing GMAIL_USER or GMAIL_PASS env vars');
+    }
+
+    // Gmail Node    
+    const emailResponse = await gmailNode({
       to: 'mahhasanori@gmail.com',
       subject: 'Github Commits',
-      text: req.query.msg,
-      user: process.env.GMAIL_USER,
-      pass: process.env.GMAIL_PASS,
+      text: message,
+      user,
+      pass,
     });
     console.log('Gmail response:', emailResponse);
-    res = emailResponse;
-  } catch (err) {
-    console.error(err);
+    return { telegram: tgResponse, email: emailResponse };
+  } catch (err : any) {
+    console.error('Workflow failed:', err);
+    throw err;
   }
 };
 
-module.exports = runWorkflow;
+export default runWorkflow;

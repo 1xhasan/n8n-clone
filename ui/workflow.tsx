@@ -1,40 +1,96 @@
-import ReactFlow, { Node, Background, Controls, Edge, useNodesState } from "reactflow";
+import React, { ReactNode } from 'react';
+import ReactFlow, { Node, Background, Controls, Edge, useNodesState, useEdgesState } from "reactflow";
 import "reactflow/dist/style.css";
 import { Box } from "@chakra-ui/react";
 
 
 
-const initialNodes: Node[] = [
+type NodeData = { label: ReactNode };
+
+const initialNodes: Node<NodeData>[] = [
   {
     id: "1",
-    data: { label: "Start" },
-    position: { x: 10, y: 10 },
+    data: {
+      label: (
+        <img
+          src="https://img.icons8.com/color/96/whatsapp--v1.png"
+          alt="WhatsApp"
+          style={{ width: 50, height: 50 }}
+        />
+      ),
+    },
+    position: { x: 0, y: 0 },
+    style: {
+      width: 50,
+      height: 50,
+      padding: 0,
+      border: "none",
+      background: "none",
+    },
   },
   {
     id: "2",
-    data: { label: "Gmail" },
-    position: { x: 100, y: 100 },
+    data: {
+      label: (
+        <img
+          src="https://img.icons8.com/color/96/telegram-app--v1.png"
+
+          alt="Telegram"
+          style={{ width: 50, height: 50 }}
+        />
+      ),
+    },
+    position: { x: 100, y: 50 },
+    style: {
+      width: 50,
+      height: 50,
+      padding: 0,
+      border: "none",
+      background: "none",
+    },
   },
   {
     id: "3",
-    data: { label: "Telegram" },
-    position: { x: 100, y: 100 },
+    data: {
+      label: (
+        <img
+          src="https://img.icons8.com/color/96/gmail--v1.png"
+          alt="Gmail"
+          style={{ width: 50, height: 50 }}
+        />
+      ),
+    },
+    position: { x: 0, y: 100 },
+    style: {
+      width: 50,
+      height: 50,
+      padding: 0,
+      border: "none",
+      background: "none",
+    },
   }
 ];
 
-const InitialEdges: Edge[]  = [{
+const initialEdges: Edge[]  = [{
     id: "1-2",
     source: "1",
     target: "2",
     animated: true
-}]
+},
+{
+  id: "2-3",
+  source: "2",
+  target: "3",
+  animated: true
+}
+]
 export const Workflow = () => {
 
-    const[nodes, setNodes, onNodesChanges]  = useNodesState(initialNodes);
-    const[edges, setEdges, onEdgesChanges]  = useNodesState(initialNodes);
+    const [nodes, setNodes, onNodesChanges]  = useNodesState<NodeData>(initialNodes);
+    const [edges, setEdges, onEdgesChanges]  = useEdgesState(initialEdges);
   return (
-    <Box height="500px" width="500px" border="1px solid black">
-      <ReactFlow nodes={initialNodes} edges={InitialEdges} onNodesChange={onNodesChanges} fitView style={{ width: "100%", height: "100%" }}>
+    <Box height="100vh" width="100vw" border="1px solid black" background={"black"}>
+      <ReactFlow nodes={nodes} edges={edges} onNodesChange={onNodesChanges} onEdgesChange={onEdgesChanges} fitView style={{ width: "50%", height: "50%" }}>
         <Background />
         <Controls />
       </ReactFlow>
