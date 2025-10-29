@@ -1,0 +1,22 @@
+// dependencies
+node_modules/
+
+// env
+.env
+
+// secret files
+cloudflared-linux-amd64.deb
+
+// bun file
+bun.lock
+
+
+// git 
+.git/
+
+// all js files
+gmail/gmail.js
+telegram/telegram.js
+workflow/sampleWorkflow.js
+
+
