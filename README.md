@@ -1,2 +1,2 @@
-# n8n
-n8n clone project
+# workflow-automation-tool
+workflow-automation-tool similar to n8n
